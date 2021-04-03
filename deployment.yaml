@@ -18,18 +18,22 @@ spec:
       containers:
         - name: nfs-client-provisioner
           image: quay.io/external_storage/nfs-client-provisioner:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
-              value: example.com/nfs
+              value: storage.onnen.io/nfs
             - name: NFS_SERVER
-              value: <<NFS Server IP>>
+              value: 10.0.10.10
             - name: NFS_PATH
-              value: /srv/nfs/kubedata
+              value: /kubedata
       volumes:
         - name: nfs-client-root
           nfs:
-            server: <<NFS Server IP>>
-            path: /srv/nfs/kubedata
+            server: 10.0.10.10
+            path: /kubedata
